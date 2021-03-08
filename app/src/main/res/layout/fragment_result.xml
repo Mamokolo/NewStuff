@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ResultFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <TextView
+        android:id="@+id/loginResult"
+        android:layout_width="0dp"
+        android:layout_height="67dp"
+        android:text="@string/hello_blank_fragment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="4dp" />
+
+    <TextView
+        android:id="@+id/difficultyView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/textDifficuly"
+        android:textSize="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loginResult" />
+
+    <TextView
+        android:id="@+id/difficultyView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/textSkillChoose"
+        android:textSize="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hardBtn" />
+
+    <Button
+        android:id="@+id/easyBtn"
+        android:layout_width="100dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/textEasy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/difficultyView" />
+
+    <Button
+        android:id="@+id/mediumBtn"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/textMedium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/easyBtn" />
+
+    <Button
+        android:id="@+id/hardBtn"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/textHard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mediumBtn" />
+
+    <Button
+        android:id="@+id/logoutBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:text="@string/textLogout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageButton
+        android:id="@+id/healBtn2"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="36dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/heal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/difficultyView2" />
+
+    <ImageButton
+        android:id="@+id/flashBtn_2"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="36dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/flash"
+        app:layout_constraintEnd_toStartOf="@+id/healBtn2"
+        app:layout_constraintTop_toBottomOf="@+id/difficultyView2" />
+
+    <ImageButton
+        android:id="@+id/shieldBtn2"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="36dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/shield"
+        app:layout_constraintStart_toEndOf="@+id/healBtn2"
+        app:layout_constraintTop_toBottomOf="@+id/difficultyView2" />
+
+    <ImageView
+        android:id="@+id/imageFrameHeal"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="36dp"
+        android:layout_weight="1"
+        android:src="@android:drawable/gallery_thumb"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/difficultyView2"
+        app:tint="#ff0000" />
+
+    <ImageView
+        android:id="@+id/imageFrameFlash"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="36dp"
+        android:layout_weight="1"
+        android:scaleType="centerInside"
+        android:src="@android:drawable/gallery_thumb"
+        android:tint="#FF0000"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toStartOf="@+id/imageFrameHeal"
+        app:layout_constraintTop_toBottomOf="@+id/difficultyView2" />
+
+    <ImageView
+        android:id="@+id/imageFrameShield"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="36dp"
+        android:layout_weight="1"
+        android:src="@android:drawable/gallery_thumb"
+        android:tint="#FF0000"
+        android:visibility="invisible"
+        app:layout_constraintStart_toEndOf="@+id/imageFrameHeal"
+        app:layout_constraintTop_toBottomOf="@+id/difficultyView2" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

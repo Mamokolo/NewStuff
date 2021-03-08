@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">NewStuff</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="textUsername">username</string>
+    <string name="textPassword">password</string>
+    <string name="textLoginBut">LOGIN</string>
+    <string name="textSignUpBut">SIGN UP</string>
+    <string name="textConfirm">CONFIRM</string>
+    <string name="textConfirmPassword">confirm your password</string>
+    <string name="textLogin">LOGIN</string>
+    <string name="textResult">RESULT</string>
+    <string name="textSignUp">SIGN UP</string>
+    <string name="textauthName">mamokolo</string>
+    <string name="textauthPassword">aaaaaa</string>
+    <string name="textloginFailed">LOGIN FAILED</string>
+    <string name="textloginFailedText">Wrong username or password. Please check again.</string>
+    <string name="textpleaseEnterName">Please enter your username.</string>
+    <string name="textpleaseEnterPassword">Please enter your password.</string>
+    <string name="textpleaseEnterPasswordConfirm">Please confirm your password.</string>
+    <string name="textpleaseSetUpName">Please set up your username.</string>
+    <string name="textpleaseSetUpPassword">Please set up your password.</string>
+    <string name="textpasswordIsTooShort"><![CDATA[Please set up your password > 6 charactor]]></string>
+    <string name="textusernameMaxLengthWarning">Max length of username is 16.</string>
+    <string name="textpasswordMaxLengthWarning">Max length of password is 18</string>
+    <string name="textconfirmPassowrFailed">Confirmed Password is wrong</string>
+    <string name="textOK">OK</string>
+    <string name="textCongraturation">Congraturation</string>
+    <string name="textDifficuly">"Please choose your difficulty "</string>
+    <string name="textEasy">EASY</string>
+    <string name="textHard">HARD</string>
+    <string name="textMedium">MEDIUM</string>
+    <string name="textLogout">LOGOUT</string>
+    <string name="textHellow">Hellow!</string>
+    <string name="textPause">PAUSE</string>
+    <string name="textSkillChoose">Please choose your skill</string>
+    <string name="textFlash">flash</string>
+    <string name="textHeal">heal</string>
+    <string name="textShield">shield</string>
+    <string name="textExit">EXIT</string>
+    <string name="textResume">RESUME</string>
+</resources>

@@ -44,18 +44,17 @@
         android:layout_marginBottom="40dp"
         android:clickable="false"
         android:src="@drawable/godtone"
-        app:layout_constraintBottom_toTopOf="@+id/imageButtonFlash"
+        app:layout_constraintBottom_toTopOf="@+id/imageButtonSkill"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
-        android:id="@+id/imageButtonFlash"
+        android:id="@+id/imageButtonSkill"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginBottom="30dp"
         android:scaleType="centerInside"
-        android:src="@drawable/flash"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -69,7 +68,7 @@
         android:scaleType="centerInside"
         android:src="@drawable/direction_right"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageButtonFlash" />
+        app:layout_constraintStart_toEndOf="@+id/imageButtonSkill" />
 
     <ImageButton
         android:id="@+id/imageButtonLeft"
@@ -79,6 +78,6 @@
         android:scaleType="centerInside"
         android:src="@drawable/direction_left"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageButtonFlash" />
+        app:layout_constraintEnd_toStartOf="@+id/imageButtonSkill" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

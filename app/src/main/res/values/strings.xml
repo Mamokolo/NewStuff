@@ -39,4 +39,6 @@
     <string name="textShield">shield</string>
     <string name="textExit">EXIT</string>
     <string name="textResume">RESUME</string>
+    <string name="textSkillWrong">There is something go wrong, please try again.</string>
+    <string name="textBundleNull">There is something wrong with your account! Please try again!</string>
 </resources>

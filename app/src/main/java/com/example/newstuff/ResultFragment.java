@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -25,33 +26,12 @@ public class ResultFragment extends Fragment {
     private ImageButton flash,heal,shield;
     private ImageView frameFlash,frameHeal,frameShield;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    // TODO: Rename and change types and number of parameters
-    public static ResultFragment newInstance(String param1, String param2) {
-        ResultFragment fragment = new ResultFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().show();//show title bar
         activity = getActivity();
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -67,7 +47,7 @@ public class ResultFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         Bundle bundle = getArguments();
         if(bundle==null){
-            Navigation.findNavController(view).navigate(R.id.mainFragment);
+            Navigation.findNavController(view).navigate(R.id.loginFragment);
         }
         textResult = view.findViewById(R.id.loginResult);
         easyBtn = view.findViewById(R.id.easyBtn);
@@ -87,7 +67,7 @@ public class ResultFragment extends Fragment {
             public void onClick(View v) {
                 if(bundle.containsKey("skill")){
                     //System.out.println(bundle.getString("skill"));
-                    bundle.putString("difficulty","easy");
+                    bundle.putString("level","easy");
                     Navigation.findNavController(view).navigate(R.id.GameFragment,bundle);
                 }
                 else{
@@ -100,12 +80,14 @@ public class ResultFragment extends Fragment {
         mediumBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                assert bundle != null;
                 if(bundle.containsKey("skill")){
                     //System.out.println(bundle.getString("skill"));
-                    bundle.putString("difficulty","medium");
+                    bundle.putString("level","medium");
                     Navigation.findNavController(view).navigate(R.id.GameFragment,bundle);
                 }
                 else{
+                    //do something someday
                 }
             }
         });
@@ -114,8 +96,9 @@ public class ResultFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //System.out.println(bundle.getString("skill"));
+                assert bundle != null;
                 if(bundle.containsKey("skill")){
-                    bundle.putString("difficulty","hard");
+                    bundle.putString("level","hard");
                     Navigation.findNavController(view).navigate(R.id.GameFragment,bundle);
                 }
 
@@ -125,31 +108,36 @@ public class ResultFragment extends Fragment {
         flash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                assert bundle != null;
                 bundle.putString("skill",getString(R.string.textFlash));
                 frameFlash.setVisibility(View.VISIBLE);
                 frameHeal.setVisibility(View.INVISIBLE);
                 frameShield.setVisibility(View.INVISIBLE);
-                System.out.println(bundle.get("skill"));
+                System.out.println("choose"+bundle.get("skill"));
             }
         });
 
         heal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                assert bundle != null;
                 bundle.putString("skill",getString(R.string.textHeal));
                 frameFlash.setVisibility(View.INVISIBLE);
                 frameHeal.setVisibility(View.VISIBLE);
                 frameShield.setVisibility(View.INVISIBLE);
+                System.out.println("choose"+bundle.get("skill"));
             }
         });
 
         shield.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                assert bundle != null;
                 bundle.putString("skill",getString(R.string.textShield));
                 frameFlash.setVisibility(View.INVISIBLE);
                 frameHeal.setVisibility(View.INVISIBLE);
                 frameShield.setVisibility(View.VISIBLE);
+                System.out.println("choose"+bundle.get("skill"));
             }
         });
 
@@ -158,10 +146,10 @@ public class ResultFragment extends Fragment {
             public void onClick(View v) {
                 NavController navController = Navigation.findNavController(view);
                 navController.popBackStack(R.id.resultFragment,true);
-                navController.popBackStack(R.id.mainFragment,true);
+                navController.popBackStack(R.id.loginFragment,true);
                 navController.popBackStack(R.id.signupFragment,true);
                 navController.popBackStack(R.id.signUpSuccessFragment,true);
-                navController.navigate(R.id.mainFragment);
+                navController.navigate(R.id.loginFragment);
             }
         });
 

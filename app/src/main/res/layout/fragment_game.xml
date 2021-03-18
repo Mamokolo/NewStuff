@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".GameFragment">
 
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:foreground="@drawable/metal"
+        android:scaleType="center"
+        android:src="@drawable/metal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <TextView
         android:id="@+id/textTime"
         android:layout_width="120dp"
@@ -41,10 +52,9 @@
         android:id="@+id/imageGodtone"
         android:layout_width="100dp"
         android:layout_height="160dp"
-        android:layout_marginBottom="40dp"
         android:clickable="false"
         android:src="@drawable/godtone"
-        app:layout_constraintBottom_toTopOf="@+id/imageButtonSkill"
+        app:layout_constraintBottom_toTopOf="@+id/imageView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
@@ -53,18 +63,36 @@
         android:id="@+id/imageButtonSkill"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="15dp"
+        android:backgroundTint="#595050"
         android:scaleType="centerInside"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <TextView
+        android:id="@+id/coolDownText"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:gravity="right|center_vertical"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textIsSelectable="false"
+        android:textSize="36sp"
+        android:verticalScrollbarPosition="defaultPosition"
+        app:layout_constraintBottom_toBottomOf="@+id/imageButtonSkill"
+        app:layout_constraintEnd_toEndOf="@+id/imageButtonSkill"
+        app:layout_constraintStart_toStartOf="@+id/imageButtonSkill"
+        app:layout_constraintTop_toTopOf="@+id/imageButtonSkill" />
+
     <ImageButton
         android:id="@+id/imageButtonRight"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="15dp"
+        android:backgroundTint="#595050"
         android:scaleType="centerInside"
         android:src="@drawable/direction_right"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -74,7 +102,8 @@
         android:id="@+id/imageButtonLeft"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="15dp"
+        android:backgroundTint="#595050"
         android:scaleType="centerInside"
         android:src="@drawable/direction_left"
         app:layout_constraintBottom_toBottomOf="parent"

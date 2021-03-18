@@ -41,4 +41,7 @@
     <string name="textResume">RESUME</string>
     <string name="textSkillWrong">There is something go wrong, please try again.</string>
     <string name="textBundleNull">There is something wrong with your account! Please try again!</string>
+    <string name="textSkill_is_Usable">Enable</string>
+    <string name="textStartBeforeGame">START!</string>
+    <string name="textGetReady">Press START! to play</string>
 </resources>

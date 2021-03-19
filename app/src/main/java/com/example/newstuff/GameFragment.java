@@ -35,7 +35,7 @@ public class GameFragment extends Fragment {
     private TextView textScore,textTime;
     private Button pause;
     private ImageButton turnLeftbtn,turnRightbtn,skillBtn;
-    private ImageView godtone;
+    private ImageView godtone,imageRoad;
     private TextView textCoolDown;
     private int width,height,change;
     private int relatedPosition=0;
@@ -53,7 +53,7 @@ public class GameFragment extends Fragment {
         width = metric.widthPixels;     // 螢幕寬度（畫素）
         height = metric.heightPixels;   // 螢幕高度（畫素）
 
-        System.out.println(width+" "+height);
+        //System.out.println(width+" "+height);
     }
 
 
@@ -77,8 +77,9 @@ public class GameFragment extends Fragment {
         turnRightbtn = view.findViewById(R.id.imageButtonRight);
         skillBtn = view.findViewById(R.id.imageButtonSkill);
         godtone = view.findViewById(R.id.imageGodtone);
+        imageRoad = view.findViewById(R.id.imageRoad);
         textCoolDown = view.findViewById(R.id.coolDownText);
-        change = width/6;
+        change = width/5;
         //New value
         Bundle bundle = getArguments();
         Animation turnLeftAnim = new TranslateAnimation(godtone.getX(),godtone.getX()-change,godtone.getY(),godtone.getY());

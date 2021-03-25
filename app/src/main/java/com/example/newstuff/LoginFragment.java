@@ -30,6 +30,7 @@ public class LoginFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = getActivity();
+
         ((AppCompatActivity)getActivity()).getSupportActionBar().show();//show the title
     }
 
@@ -44,6 +45,12 @@ public class LoginFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        View decorView = activity.getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
+        decorView.setSystemUiVisibility(uiOptions);
+
         loginName = view.findViewById(R.id.LoginName);
         loginPassword = view.findViewById(R.id.lgoinPassword);
         loginBtn = view.findViewById(R.id.loginBtn);

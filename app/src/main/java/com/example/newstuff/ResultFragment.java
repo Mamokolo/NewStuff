@@ -1,6 +1,7 @@
 package com.example.newstuff;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -61,6 +62,8 @@ public class ResultFragment extends Fragment {
         frameHeal = view.findViewById(R.id.imageFrameHeal);
         frameShield = view.findViewById(R.id.imageFrameShield);
 
+        hideNavigationBar();
+
 
         easyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,6 +71,10 @@ public class ResultFragment extends Fragment {
                 if(bundle.containsKey("skill")){
                     //System.out.println(bundle.getString("skill"));
                     bundle.putString("level","easy");
+
+                    //Intent intent = new Intent(activity, GameActivity.class);
+                    //startActivity(intent);
+
                     Navigation.findNavController(view).navigate(R.id.GameFragment,bundle);
                 }
                 else{
@@ -161,5 +168,12 @@ public class ResultFragment extends Fragment {
             textResult.setText(Text);
 
         }
+    }
+    public void hideNavigationBar(){
+        View decorView = activity.getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
+        decorView.setSystemUiVisibility(uiOptions);
     }
 }

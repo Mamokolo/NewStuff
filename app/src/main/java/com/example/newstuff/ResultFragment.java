@@ -1,9 +1,12 @@
 package com.example.newstuff;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +37,36 @@ public class ResultFragment extends Fragment {
         super.onCreate(savedInstanceState);
         ((AppCompatActivity)getActivity()).getSupportActionBar().show();//show title bar
         activity = getActivity();
+        Bundle currentBundle = getArguments();
+
+        //TODO: Catch onBackPressed
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                //TODO: Check if user wants to logout
+                onPause();
+
+                AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
+                dialog.setTitle(getString(R.string.textWarning));
+                dialog.setCancelable(false);
+                dialog.setMessage(getString(R.string.textLogoutWarning));
+                dialog.setPositiveButton(getString(R.string.textExit), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Logout();
+                    }
+                });
+                dialog.setNegativeButton(getString(R.string.textCancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        onResume();
+                    }
+                });
+                dialog.show();
+                //System.out.println("Back Catch");
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
     @Override
@@ -46,10 +80,12 @@ public class ResultFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         Bundle bundle = getArguments();
         if(bundle==null){
             Navigation.findNavController(view).navigate(R.id.loginFragment);
         }
+
         textResult = view.findViewById(R.id.loginResult);
         easyBtn = view.findViewById(R.id.easyBtn);
         mediumBtn = view.findViewById(R.id.mediumBtn);
@@ -74,11 +110,12 @@ public class ResultFragment extends Fragment {
 
                     //Intent intent = new Intent(activity, GameActivity.class);
                     //startActivity(intent);
+                    //activity.finish();
 
                     Navigation.findNavController(view).navigate(R.id.GameFragment,bundle);
                 }
                 else{
-
+                    //do something someday
                 }
 
             }
@@ -151,23 +188,42 @@ public class ResultFragment extends Fragment {
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NavController navController = Navigation.findNavController(view);
-                navController.popBackStack(R.id.resultFragment,true);
-                navController.popBackStack(R.id.loginFragment,true);
-                navController.popBackStack(R.id.signupFragment,true);
-                navController.popBackStack(R.id.signUpSuccessFragment,true);
-                navController.navigate(R.id.loginFragment);
+                onPause();
+
+                AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
+                dialog.setTitle(getString(R.string.textWarning));
+                dialog.setCancelable(false);
+                dialog.setMessage(getString(R.string.textLogoutWarning));
+                dialog.setPositiveButton(getString(R.string.textExit), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Logout();
+                    }
+                });
+                dialog.setNegativeButton(getString(R.string.textCancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        onResume();
+                    }
+                });
+                dialog.show();
             }
         });
-
 
         if(bundle!=null){
             String name = bundle.getString("name");
             String password  = bundle.getString("password");
             String Text = "name: "+name+"\npassword: "+password;
             textResult.setText(Text);
-
         }
+    }
+    public void Logout(){
+        NavController navController = Navigation.findNavController(ResultFragment.this.getView());
+        navController.popBackStack(R.id.resultFragment,true);
+        navController.popBackStack(R.id.loginFragment,true);
+        navController.popBackStack(R.id.signupFragment,true);
+        navController.popBackStack(R.id.signUpSuccessFragment,true);
+        navController.navigate(R.id.loginFragment);
     }
     public void hideNavigationBar(){
         View decorView = activity.getWindow().getDecorView();

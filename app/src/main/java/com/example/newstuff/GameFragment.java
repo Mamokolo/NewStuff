@@ -8,6 +8,7 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -52,6 +53,35 @@ public class GameFragment extends Fragment {
         activity = getActivity();
         ((AppCompatActivity)getActivity()).getSupportActionBar().hide();//hide the title bar
         super.onCreate(savedInstanceState);
+
+        //TODO: Catch onBackPressed
+        Bundle currentBundle = getArguments();
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                onPause();
+
+                AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
+                dialog.setTitle(getString(R.string.textWarning));
+                dialog.setCancelable(false);
+                dialog.setMessage(getString(R.string.textEndGameWarn));
+                dialog.setPositiveButton(getString(R.string.textExit), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Navigation.findNavController(GameFragment.this.getView()).navigate(R.id.resultFragment,currentBundle);
+                    }
+                });
+                dialog.setNegativeButton(getString(R.string.textCancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        onResume();
+                    }
+                });
+                dialog.show();
+                System.out.println("Back Catch");
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
 
         DisplayMetrics metric = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(metric);
@@ -131,19 +161,19 @@ public class GameFragment extends Fragment {
                 //System.out.println("use skill");
                 switch (Objects.requireNonNull(bundle).getString("skill")){
                     case "flash":
-                        System.out.println("use flash");
+                        //System.out.println("use flash");
                         useFlash();
-                        flashCoolDown();
+                        setFlashCoolDown();
                         break;
                     case "heal":
-                        System.out.println("use heal");
+                        //System.out.println("use heal");
                         useHeal();
-                        healCoolDown();
+                        setHealCoolDown();
                         break;
                     case "shield":
-                        System.out.println("use shield");
+                        //System.out.println("use shield");
                         useShield();
-                        shieldCoolDown();
+                        setShieldCoolDown();
                         break;
                 }
             }
@@ -180,6 +210,7 @@ public class GameFragment extends Fragment {
 
         //TODO: Game ready
         hideNavigationBar();
+        System.out.println(bundle.get("skill"));
 
         TextView readyTitle = new TextView(activity);
         readyTitle.setText(getString(R.string.textGetReady));
@@ -256,19 +287,19 @@ public class GameFragment extends Fragment {
             }
         }.start();
     }
-    private void flashCoolDown(){
+    private void setFlashCoolDown(){
         //TODO: Set CD of flash
         skillBtn.setEnabled(false);
         howLongToCD = 40000;
         coolDownTimerStart();
     }
-    private void healCoolDown(){
+    private void setHealCoolDown(){
         //TODO: Set CD of heal
         skillBtn.setEnabled(false);
         howLongToCD = 30000;
         coolDownTimerStart();
     }
-    private void shieldCoolDown(){
+    private void setShieldCoolDown(){
         //TODO: Set CD of shield
         skillBtn.setEnabled(false);
         howLongToCD = 40000;

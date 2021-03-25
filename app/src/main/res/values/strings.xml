@@ -44,4 +44,8 @@
     <string name="textSkill_is_Usable">Enable</string>
     <string name="textStartBeforeGame">START!</string>
     <string name="textGetReady">Press START! to play</string>
+    <string name="textCancel">CANCEL</string>
+    <string name="textEndGameWarn">"Are you sure you're want to quit game? Non of your score will be record! "</string>
+    <string name="textWarning">WARNING</string>
+    <string name="textLogoutWarning">Are you sure you\'re want to logout?</string>
 </resources>

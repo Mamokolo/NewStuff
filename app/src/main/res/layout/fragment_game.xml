@@ -24,7 +24,7 @@
         android:id="@+id/imageNL1"
         android:layout_width="100dp"
         android:layout_height="120dp"
-        android:src="@drawable/nl"
+        android:src="@drawable/new_nl"
         tools:layout_editor_absoluteX="156dp"
         tools:layout_editor_absoluteY="301dp" />
 
@@ -92,11 +92,9 @@
         android:layout_width="100dp"
         android:layout_height="160dp"
         android:clickable="false"
-        android:src="@drawable/godtone"
+        android:src="@drawable/new_godtone"
         app:layout_constraintBottom_toTopOf="@+id/imageButtonSeat"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        tools:layout_editor_absoluteX="311dp" />
 
     <ImageButton
         android:id="@+id/imageButtonSkill"

@@ -126,7 +126,7 @@ public class ResultFragment extends Fragment {
                 assert bundle != null;
                 if(bundle.containsKey("skill")){
                     //System.out.println(bundle.getString("skill"));
-                    bundle.putString("level","medium");
+                    bundle.putString("level","middle");
                     Navigation.findNavController(view).navigate(R.id.GameFragment,bundle);
                 }
                 else{

@@ -123,19 +123,36 @@ public class GameFragment extends Fragment {
         turnLeftbtn = view.findViewById(R.id.imageButtonLeft);
         turnRightbtn = view.findViewById(R.id.imageButtonRight);
         skillBtn = view.findViewById(R.id.imageButtonSkill);
-        godtone = view.findViewById(R.id.imageGodtone);
         imageRoad = view.findViewById(R.id.imageRoad);
+
+        godtone = view.findViewById(R.id.imageGodtone);
+        godtone.setAdjustViewBounds(true);
+
         NL = view.findViewById(R.id.imageNL1);
         NL.setVisibility(View.INVISIBLE);
+        NL.setAdjustViewBounds(true);
+
+        ViewGroup.LayoutParams lpGodtone = godtone.getLayoutParams();
+        ViewGroup.LayoutParams lpNL = NL.getLayoutParams();
+        lpGodtone.width = width/5;
+        lpGodtone.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        godtone.setLayoutParams(lpGodtone);
+        lpNL.width = width/5;
+        lpNL.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        NL.setLayoutParams(lpNL);
+
+
+
         textCoolDown = view.findViewById(R.id.coolDownText);
         readyCountDown = view.findViewById(R.id.readyCountDownText);
         change = width/5;
         ArrayList<Integer> monsterY= new ArrayList<Integer>();
         for(int i=0;i<5;i++){
-            monsterY.add(width/9+((width/9)*i*2));
+            monsterY.add((width/5)*i);
         }
         //New value
         Bundle bundle = getArguments();
+        godtone.setX((width/5)*2);
         Animation turnLeftAnim = new TranslateAnimation(godtone.getX(),godtone.getX()-change,godtone.getY(),godtone.getY());
         Animation turnRightAnim = new TranslateAnimation(godtone.getX(),godtone.getX()+change,godtone.getY(),godtone.getY());
 
@@ -147,7 +164,7 @@ public class GameFragment extends Fragment {
         initPlayer(player,bundle.getString("level"));
         //TODO: Monster parameter
         Random ran = new Random();
-        monsters nl = new monsters(bundle.getString("level"),NL,height-70,godtone,monsterY);
+        monsters nl = new monsters(bundle.getString("level"), NL, height-70, godtone, monsterY, width, height);
 
 
         turnLeftbtn.setOnClickListener(new View.OnClickListener() {
@@ -457,19 +474,22 @@ public class GameFragment extends Fragment {
     }
 
     private static class monsters{
-        private int distance;
+        private int distance, screenW, screenH;
         private String level;
         private ImageView monster, godtone;
         private CountDownTimer moveTimer;
         private ArrayList<Integer> monsterY;
         private float currentX;
+        private long speedTime;
         Random random = new Random();
-        monsters(String level,ImageView monster,int distance,ImageView godtone,ArrayList<Integer> monsterY){
+        monsters(String level,ImageView monster,int distance,ImageView godtone,ArrayList<Integer> monsterY,int screenW,int screenH){
             this.level = level;
             this.monster = monster;
             this.distance = distance;
             this.godtone = godtone;
             this.monsterY = monsterY;
+            this.screenW = screenW;
+            this.screenH = screenH;
 
             this.monster.setX(monsterY.get(random.nextInt(4)));
             this.monster.setY(0);
@@ -477,12 +497,23 @@ public class GameFragment extends Fragment {
         }
 
         private void move(){
-            moveTimer = new CountDownTimer(10000,100) {
+            switch (level){
+                case "easy":
+                    speedTime = 10000;
+                    break;
+                case "middle":
+                    speedTime = 6000;
+                    break;
+                case "hard":
+                    speedTime = 3000;
+                    break;
+            }
+            moveTimer = new CountDownTimer(speedTime,50) {
                 @Override
                 public void onTick(long millisUntilFinished) {
                     if(conflict()){
                         //System.out.println("move"+distance/100);
-                        monster.setY(monster.getY()+distance/100);
+                        monster.setY(monster.getY()+distance/(speedTime/50));
                     }
                     else if(monster.getX()==godtone.getX()&&monster.getY()==godtone.getY()+110){
                         monster.setX(monsterY.get(random.nextInt(4)));

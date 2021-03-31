@@ -49,4 +49,6 @@
     <string name="textWarning">WARNING</string>
     <string name="textLogoutWarning">Are you sure you\'re want to logout?</string>
     <string name="textIAmReady">READY!</string>
+    <string name="textHowLong">YOUR TIME</string>
+    <string name="textHowManyScoreYouGot">YOUR SCORE</string>
 </resources>

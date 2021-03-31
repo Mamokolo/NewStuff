@@ -3,8 +3,6 @@ package com.example.newstuff;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -13,14 +11,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.Navigation;
 
 import android.os.CountDownTimer;
+import android.os.SystemClock;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,14 +26,16 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.Random;
 
 public class GameFragment extends Fragment {
 
@@ -44,14 +43,17 @@ public class GameFragment extends Fragment {
     private TextView textScore,textTime;
     private Button pause;
     private ImageButton turnLeftbtn,turnRightbtn,skillBtn;
-    private ImageView godtone,imageRoad;
+    private ImageView godtone,imageRoad,NL;
     private TextView textCoolDown,readyCountDown;
     private int width,height,change;
     private int relatedPosition=0;
     private CountDownTimer coolDownTimer,readyTimer;
+    private Chronometer gameTimer;
     private long howLongToCD =0;
     private static final String TAG = null;
     private List<ImageView> obstacleList=null;
+    private int score=0;
+    private long lastPause;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -116,16 +118,22 @@ public class GameFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         //existed value
         textScore = view.findViewById(R.id.textScore);
-        textTime = view.findViewById(R.id.textTime);
+        gameTimer = view.findViewById(R.id.textTime);
         pause = view.findViewById(R.id.pauseBtn);
         turnLeftbtn = view.findViewById(R.id.imageButtonLeft);
         turnRightbtn = view.findViewById(R.id.imageButtonRight);
         skillBtn = view.findViewById(R.id.imageButtonSkill);
         godtone = view.findViewById(R.id.imageGodtone);
         imageRoad = view.findViewById(R.id.imageRoad);
+        NL = view.findViewById(R.id.imageNL1);
+        NL.setVisibility(View.INVISIBLE);
         textCoolDown = view.findViewById(R.id.coolDownText);
         readyCountDown = view.findViewById(R.id.readyCountDownText);
         change = width/5;
+        ArrayList<Integer> monsterY= new ArrayList<Integer>();
+        for(int i=0;i<5;i++){
+            monsterY.add(width/9+((width/9)*i*2));
+        }
         //New value
         Bundle bundle = getArguments();
         Animation turnLeftAnim = new TranslateAnimation(godtone.getX(),godtone.getX()-change,godtone.getY(),godtone.getY());
@@ -133,10 +141,14 @@ public class GameFragment extends Fragment {
 
 
         informationInit(bundle,view);
-        //Player's parameters
+        //TODO: Player's parameters
         PlayerData player = new PlayerData(0,null,null,0);
         assert bundle != null;
         initPlayer(player,bundle.getString("level"));
+        //TODO: Monster parameter
+        Random ran = new Random();
+        monsters nl = new monsters(bundle.getString("level"),NL,height-70,godtone,monsterY);
+
 
         turnLeftbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -197,6 +209,9 @@ public class GameFragment extends Fragment {
                 if(coolDownTimer!=null){
                     coolDownTimer.cancel();
                 }
+                lastPause = SystemClock.elapsedRealtime();
+                gameTimer.stop();
+
                 AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
                 dialog.setTitle("PAUSE");
                 dialog.setCancelable(false);
@@ -211,6 +226,8 @@ public class GameFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         coolDownTimerStart();
+                        gameTimer.setBase(gameTimer.getBase() + SystemClock.elapsedRealtime() - lastPause);
+                        gameTimer.start();
                     }
                 });
                 dialog.show();
@@ -239,14 +256,18 @@ public class GameFragment extends Fragment {
         readyDialog.setPositiveButton(getString(R.string.textIAmReady), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                setReadyTimer();
+                setReadyTimer(nl);
             }
         });
         readyDialog.show();
 
         //TODO: Game start!
 
+        textScore.setText(String.valueOf(score));
+
         //obstacleList.add();
+        System.out.println(nl.monster.getX()+" "+nl.monster.getY()+" "+nl.level);
+        System.out.println(imageRoad.getTop()+" "+imageRoad.getBottom());
 
 
 
@@ -312,7 +333,7 @@ public class GameFragment extends Fragment {
             }
         }.start();
     }
-    private void setReadyTimer(){
+    private void setReadyTimer(monsters nl){
 
         turnLeftbtn.setClickable(false);
         turnRightbtn.setClickable(false);
@@ -333,10 +354,16 @@ public class GameFragment extends Fragment {
             public void onFinish() {
                 readyCountDown.setBackgroundColor(Color.argb(0,0,0,0));//TODO: 設定半透明
                 readyCountDown.setText("");
+                //TODO: unForbid bottom and image
                 turnLeftbtn.setClickable(true);
                 turnRightbtn.setClickable(true);
                 skillBtn.setClickable(true);
                 pause.setClickable(true);
+                NL.setVisibility(View.VISIBLE);
+                nl.move();
+                //TODO: Reset gameTimer
+                gameTimer.setBase(SystemClock.elapsedRealtime());
+                gameTimer.start();
             }
         }.start();
     }
@@ -426,6 +453,61 @@ public class GameFragment extends Fragment {
             this.level = level;
             this.speed = speed;
             this.score = score;
+        }
+    }
+
+    private static class monsters{
+        private int distance;
+        private String level;
+        private ImageView monster, godtone;
+        private CountDownTimer moveTimer;
+        private ArrayList<Integer> monsterY;
+        private float currentX;
+        Random random = new Random();
+        monsters(String level,ImageView monster,int distance,ImageView godtone,ArrayList<Integer> monsterY){
+            this.level = level;
+            this.monster = monster;
+            this.distance = distance;
+            this.godtone = godtone;
+            this.monsterY = monsterY;
+
+            this.monster.setX(monsterY.get(random.nextInt(4)));
+            this.monster.setY(0);
+            this.currentX = this.monster.getX();
+        }
+
+        private void move(){
+            moveTimer = new CountDownTimer(10000,100) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    if(conflict()){
+                        //System.out.println("move"+distance/100);
+                        monster.setY(monster.getY()+distance/100);
+                    }
+                    else if(monster.getX()==godtone.getX()&&monster.getY()==godtone.getY()+110){
+                        monster.setX(monsterY.get(random.nextInt(4)));
+                        if(monster.getX()==currentX){
+                            monster.setX(monster.getX()+2*monsterY.get(0));
+                            currentX = monster.getX();
+                        }
+                        monster.setY(0);
+                        move();
+                    }
+                }
+                @Override
+                public void onFinish() {
+                    monster.setX(monsterY.get(random.nextInt(4)));
+                    if(monster.getX()==currentX){
+                        monster.setX(monster.getX()+2*monsterY.get(0));
+                        currentX = monster.getX();
+                    }
+                    monster.setY(0);
+                    move();
+                }
+            }.start();
+        }
+        private boolean conflict(){
+            return true;
         }
     }
 }

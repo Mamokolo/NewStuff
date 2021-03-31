@@ -72,7 +72,8 @@ public class ResultFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        activity.setTitle(R.string.textHellow);
+        savedInstanceState = getArguments();
+        activity.setTitle(getResources().getString(R.string.textHello)+" "+savedInstanceState.getString("name"));
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_result, container, false);
     }
@@ -86,7 +87,6 @@ public class ResultFragment extends Fragment {
             Navigation.findNavController(view).navigate(R.id.loginFragment);
         }
 
-        textResult = view.findViewById(R.id.loginResult);
         easyBtn = view.findViewById(R.id.easyBtn);
         mediumBtn = view.findViewById(R.id.mediumBtn);
         hardBtn = view.findViewById(R.id.hardBtn);
@@ -108,9 +108,8 @@ public class ResultFragment extends Fragment {
                     //System.out.println(bundle.getString("skill"));
                     bundle.putString("level","easy");
 
-                    //Intent intent = new Intent(activity, GameActivity.class);
-                    //startActivity(intent);
-                    //activity.finish();
+                    //Intent intent_game = new Intent(activity, GameActivity.class);
+                    //startActivity(intent_game,bundle);
 
                     Navigation.findNavController(view).navigate(R.id.GameFragment,bundle);
                 }
@@ -209,13 +208,6 @@ public class ResultFragment extends Fragment {
                 dialog.show();
             }
         });
-
-        if(bundle!=null){
-            String name = bundle.getString("name");
-            String password  = bundle.getString("password");
-            String Text = "name: "+name+"\npassword: "+password;
-            textResult.setText(Text);
-        }
     }
     public void Logout(){
         NavController navController = Navigation.findNavController(ResultFragment.this.getView());

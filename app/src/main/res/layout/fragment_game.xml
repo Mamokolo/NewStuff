@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center"
     tools:context=".GameFragment">
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/imageButtonSeat"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:foreground="@drawable/metal"
@@ -24,10 +25,12 @@
         android:layout_height="0dp"
         android:scaleType="fitXY"
         android:src="@drawable/image_background_road1"
-        app:layout_constraintBottom_toTopOf="@+id/imageView2"
+        app:layout_constraintBottom_toTopOf="@+id/imageButtonSeat"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/textTime"
@@ -36,6 +39,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
         android:background="#FFFFFF"
+        android:gravity="right|center_vertical"
         android:text="TextView"
         app:layout_constraintEnd_toStartOf="@+id/textScore"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,6 +53,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
         android:background="#FFFFFF"
+        android:gravity="right|center_vertical"
         android:text="TextView"
         app:layout_constraintEnd_toStartOf="@+id/pauseBtn"
         app:layout_constraintStart_toEndOf="@+id/textTime"
@@ -71,10 +76,18 @@
         android:layout_height="160dp"
         android:clickable="false"
         android:src="@drawable/godtone"
-        app:layout_constraintBottom_toTopOf="@+id/imageView2"
+        app:layout_constraintBottom_toTopOf="@+id/imageButtonSeat"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageNL1"
+        android:layout_width="100dp"
+        android:layout_height="120dp"
+        android:src="@drawable/nl"
+        tools:layout_editor_absoluteX="156dp"
+        tools:layout_editor_absoluteY="301dp" />
 
     <ImageButton
         android:id="@+id/imageButtonSkill"
@@ -131,5 +144,19 @@
         app:layout_constraintEnd_toEndOf="@+id/imageButtonSkill"
         app:layout_constraintStart_toStartOf="@+id/imageButtonSkill"
         app:layout_constraintTop_toTopOf="@+id/imageButtonSkill" />
+
+    <TextView
+        android:id="@+id/readyCountDownText"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:textColor="#FBFBFB"
+        android:textSize="48sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

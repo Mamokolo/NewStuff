@@ -50,7 +50,7 @@ public class SignUpSuccessFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        activity.setTitle(getString(R.string.textCongraturation));
+        activity.setTitle(getString(R.string.textCongratulation));
         return inflater.inflate(R.layout.fragment_sign_up_success, container, false);
     }
 

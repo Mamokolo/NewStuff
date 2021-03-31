@@ -115,7 +115,7 @@ public class LoginFragment extends Fragment {
                 String password = loginPassword.getText().toString();
 
 
-                if(name.equals(getString(R.string.textauthName))&&password.equals(getString(R.string.textauthPassword))){
+                if(name.equals(getString(R.string.textAuthName))&&password.equals(getString(R.string.textAuthPassword))){
                     Bundle bundle = new Bundle();
                     bundle.putString("name",name);
                     bundle.putString("password",password);
@@ -137,8 +137,8 @@ public class LoginFragment extends Fragment {
     }
     public void DialogInit() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(LoginFragment.this.activity);
-        alertDialog.setTitle(R.string.textloginFailed);
-        alertDialog.setMessage(R.string.textloginFailedText);
+        alertDialog.setTitle(R.string.textLoginFailed);
+        alertDialog.setMessage(R.string.textLoginFailedText);
         alertDialog.setPositiveButton("確定", ((dialog, which) -> {
         }));
         AlertDialog dialog = alertDialog.create();

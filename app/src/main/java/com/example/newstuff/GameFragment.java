@@ -18,6 +18,7 @@ import androidx.navigation.Navigation;
 
 import android.os.CountDownTimer;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -34,6 +35,8 @@ import android.widget.TextView;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class GameFragment extends Fragment {
 
@@ -42,17 +45,20 @@ public class GameFragment extends Fragment {
     private Button pause;
     private ImageButton turnLeftbtn,turnRightbtn,skillBtn;
     private ImageView godtone,imageRoad;
-    private TextView textCoolDown;
+    private TextView textCoolDown,readyCountDown;
     private int width,height,change;
     private int relatedPosition=0;
-    private CountDownTimer cdt;
+    private CountDownTimer coolDownTimer,readyTimer;
     private long howLongToCD =0;
+    private static final String TAG = null;
+    private List<ImageView> obstacleList=null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         activity = getActivity();
         ((AppCompatActivity)getActivity()).getSupportActionBar().hide();//hide the title bar
         super.onCreate(savedInstanceState);
+        System.out.println("save: "+ savedInstanceState);
 
         //TODO: Catch onBackPressed
         Bundle currentBundle = getArguments();
@@ -66,8 +72,12 @@ public class GameFragment extends Fragment {
                 dialog.setCancelable(false);
                 dialog.setMessage(getString(R.string.textEndGameWarn));
                 dialog.setPositiveButton(getString(R.string.textExit), new DialogInterface.OnClickListener() {
+
+
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        Log.e(TAG,"click exit btn on warning page on pause func");
+                        currentBundle.remove("skill");
                         Navigation.findNavController(GameFragment.this.getView()).navigate(R.id.resultFragment,currentBundle);
                     }
                 });
@@ -114,6 +124,7 @@ public class GameFragment extends Fragment {
         godtone = view.findViewById(R.id.imageGodtone);
         imageRoad = view.findViewById(R.id.imageRoad);
         textCoolDown = view.findViewById(R.id.coolDownText);
+        readyCountDown = view.findViewById(R.id.readyCountDownText);
         change = width/5;
         //New value
         Bundle bundle = getArguments();
@@ -183,10 +194,9 @@ public class GameFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 System.out.println(howLongToCD);
-                if(cdt!=null){
-                    cdt.cancel();
+                if(coolDownTimer!=null){
+                    coolDownTimer.cancel();
                 }
-                onPause();
                 AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
                 dialog.setTitle("PAUSE");
                 dialog.setCancelable(false);
@@ -200,7 +210,6 @@ public class GameFragment extends Fragment {
                 dialog.setNegativeButton(getString(R.string.textResume), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        onResume();
                         coolDownTimerStart();
                     }
                 });
@@ -210,8 +219,8 @@ public class GameFragment extends Fragment {
 
         //TODO: Game ready
         hideNavigationBar();
-        System.out.println(bundle.get("skill"));
 
+        System.out.println(bundle.get("skill"));
         TextView readyTitle = new TextView(activity);
         readyTitle.setText(getString(R.string.textGetReady));
         readyTitle.setGravity(Gravity.CENTER);
@@ -220,19 +229,35 @@ public class GameFragment extends Fragment {
         AlertDialog.Builder readyDialog = new AlertDialog.Builder(activity);
         readyDialog.setCustomTitle(readyTitle);
         readyDialog.setCancelable(false);
-        readyDialog.setNeutralButton(getString(R.string.textStartBeforeGame), new DialogInterface.OnClickListener() {
+        readyDialog.setNeutralButton(getResources().getString(R.string.textExit), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                onResume();
+                bundle.remove("skill");
+                Navigation.findNavController(view).navigate(R.id.resultFragment,bundle);
+            }
+        });
+        readyDialog.setPositiveButton(getString(R.string.textIAmReady), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                setReadyTimer();
             }
         });
         readyDialog.show();
 
-
         //TODO: Game start!
+
+        //obstacleList.add();
+
 
 
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+    }
+
     private void initPlayer(PlayerData playerData, String level){
         //TODO: Initialize player's status
         switch (level) {
@@ -265,7 +290,7 @@ public class GameFragment extends Fragment {
     }
     private void coolDownTimerStart(){
         textCoolDown.setBackgroundColor(Color.argb(150,0,0,0));//TODO: 設定半透明
-        cdt = new CountDownTimer(howLongToCD, 100) {
+        coolDownTimer = new CountDownTimer(howLongToCD, 100) {
             @Override
             public void onTick(long millisUntilFinished) {
                 if(getActivity()!=null){
@@ -275,7 +300,7 @@ public class GameFragment extends Fragment {
                 }
                 else {
                     //System.out.println("cancel to pause");
-                    cdt.cancel();
+                    coolDownTimer.cancel();
                 }
             }
             @Override
@@ -284,6 +309,34 @@ public class GameFragment extends Fragment {
                 textCoolDown.setBackgroundColor(Color.argb(0,0,0,0));
                 textCoolDown.setText("");
                 //System.out.println("finish");
+            }
+        }.start();
+    }
+    private void setReadyTimer(){
+
+        turnLeftbtn.setClickable(false);
+        turnRightbtn.setClickable(false);
+        skillBtn.setClickable(false);
+        pause.setClickable(false);
+        readyCountDown.setBackgroundColor(Color.argb(150,0,0,0));//TODO: 設定半透明
+        readyTimer = new CountDownTimer(4100, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                if(millisUntilFinished/1000>1){
+                    readyCountDown.setText(String.valueOf((millisUntilFinished/1000)-1));
+                }
+                else{
+                    readyCountDown.setText(getResources().getString(R.string.textStartBeforeGame));
+                }
+            }
+            @Override
+            public void onFinish() {
+                readyCountDown.setBackgroundColor(Color.argb(0,0,0,0));//TODO: 設定半透明
+                readyCountDown.setText("");
+                turnLeftbtn.setClickable(true);
+                turnRightbtn.setClickable(true);
+                skillBtn.setClickable(true);
+                pause.setClickable(true);
             }
         }.start();
     }
@@ -305,8 +358,6 @@ public class GameFragment extends Fragment {
         howLongToCD = 40000;
         coolDownTimerStart();
     }
-
-
     private void informationInit(Bundle bundle,View view){
         //TODO: Initialize skills and check condition of bundle. If bundle is empty, go back to login page.
         // If something went wrong with bundle, give a dialog to user.
@@ -353,7 +404,6 @@ public class GameFragment extends Fragment {
             bundleNullDialog.show();
         }
     }
-
     public void hideNavigationBar(){
         View decorView = activity.getWindow().getDecorView();
         int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
@@ -362,8 +412,12 @@ public class GameFragment extends Fragment {
         decorView.setSystemUiVisibility(uiOptions);
     }
 
+    public void conflict(){
 
+    }
+    public void chooseObjective(){
 
+    }
     private static class PlayerData {
         private int life,score;
         private String speed,level;

@@ -108,9 +108,13 @@ public class ResultFragment extends Fragment {
                     //System.out.println(bundle.getString("skill"));
                     bundle.putString("level","easy");
 
-                    //Intent intent_game = new Intent(activity, GameActivity.class);
-                    //startActivity(intent_game,bundle);
 
+                    /*//TODO: Try to use another activity
+                    Intent intent_game = new Intent(activity, GameActivity.class);
+                    intent_game.putExtra("playerData",bundle);
+                    activity.finish();
+                    startActivity(intent_game);
+                    */
                     Navigation.findNavController(view).navigate(R.id.GameFragment,bundle);
                 }
                 else{

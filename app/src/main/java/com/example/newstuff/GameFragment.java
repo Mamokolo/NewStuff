@@ -32,6 +32,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.newstuff.Model.playerData;
+import com.example.newstuff.Model.monsters;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
@@ -167,7 +170,7 @@ public class GameFragment extends Fragment {
 
         informationInit(bundle,view);
         //TODO: Player's parameters
-        PlayerData player = new PlayerData(0,null,null,0);
+        playerData player = new playerData(0,null,null,0);
         assert bundle != null;
         initPlayer(player,bundle.getString("level"));
         //TODO: Monster parameter
@@ -304,7 +307,7 @@ public class GameFragment extends Fragment {
 
     }
 
-    private void initPlayer(PlayerData playerData, String level){
+    private void initPlayer(playerData playerData, String level){
         //TODO: Initialize player's status
         switch (level) {
             case "easy":
@@ -462,101 +465,5 @@ public class GameFragment extends Fragment {
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
         decorView.setSystemUiVisibility(uiOptions);
-    }
-
-    public void chooseObjective(){
-
-    }
-    private static class PlayerData {
-        private int life,score;
-        private String speed,level;
-        public PlayerData(int life, String speed, String level, int score){
-            this.life = life;
-            this.level = level;
-            this.speed = speed;
-            this.score = score;
-        }
-    }
-
-    private static class monsters{
-        private int distance, screenW, screenH;
-        private String level;
-        private ImageView monster, godtone;
-        private CountDownTimer moveTimer;
-        private ArrayList<Integer> monsterY;
-        private float currentX;
-        private long speedTime;
-        private int godtoneHeight, godtoneWidth;
-        Random random = new Random();
-
-        monsters(String level,ImageView monster,int distance,ImageView godtone,ArrayList<Integer> monsterY,int screenW,int screenH, int godtoneHeight){
-            this.level = level;
-            this.monster = monster;
-            this.distance = distance;
-            this.godtone = godtone;
-            this.monsterY = monsterY;
-            this.screenW = screenW;
-            this.screenH = screenH;
-
-            this.monster.setX(monsterY.get(random.nextInt(4)));
-            this.monster.setY(0);
-            this.currentX = this.monster.getX();
-            this.godtoneHeight = godtoneHeight;
-            System.out.println(godtoneHeight);
-
-        }
-
-        private void move(){
-            switch (level){
-                case "easy":
-                    speedTime = 10000;
-                    break;
-                case "middle":
-                    speedTime = 6000;
-                    break;
-                case "hard":
-                    speedTime = 3000;
-                    break;
-            }
-            moveTimer = new CountDownTimer(speedTime,50) {
-                @Override
-                public void onTick(long millisUntilFinished) {
-                    if(!conflict()) {
-                        //System.out.println("move"+distance/100);
-                        monster.setY(monster.getY()+distance/(speedTime/50));
-                    }
-                    else if(conflict()){
-                        monster.setX(monsterY.get(random.nextInt(4)));
-                        if (monster.getX() == currentX) {
-                            monster.setX(monster.getX() + 2 * monsterY.get(0));
-                            currentX = monster.getX();
-                        }
-                        monster.setY(0);
-                        moveTimer.cancel();
-                        move();
-                    }
-                }
-                @Override
-                public void onFinish() {
-                    monster.setX(monsterY.get(random.nextInt(4)));
-                    if(monster.getX()==currentX){
-                        monster.setX(monster.getX()+2*monsterY.get(0));
-                        currentX = monster.getX();
-                    }
-                    monster.setY(0);
-                    move();
-                }
-            }.start();
-        }
-        public boolean conflict(){
-            if(monster.getX()==godtone.getX() && monster.getY()-(godtone.getY()-godtoneHeight)>10){
-                System.out.println("Conflict!");
-                return true;
-            }
-            else{
-                //System.out.println("Don't conflict");
-                return false;
-            }
-        }
     }
 }

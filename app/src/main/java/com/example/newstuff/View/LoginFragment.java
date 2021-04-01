@@ -1,4 +1,4 @@
-package com.example.newstuff;
+package com.example.newstuff.View;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -17,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.example.newstuff.R;
 
 
 public class LoginFragment extends Fragment {

@@ -1,4 +1,4 @@
-package com.example.newstuff;
+package com.example.newstuff.View;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +8,8 @@ import androidx.fragment.app.FragmentManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.Toolbar;
+
+import com.example.newstuff.R;
 
 import java.util.List;
 

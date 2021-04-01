@@ -1,9 +1,11 @@
-package com.example.newstuff;
+package com.example.newstuff.View;
 
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.newstuff.R;
 
 public class GameActivity extends AppCompatActivity {
 

@@ -1,10 +1,9 @@
-package com.example.newstuff;
+package com.example.newstuff.View;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
@@ -22,8 +21,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
@@ -34,8 +31,8 @@ import android.widget.TextView;
 
 import com.example.newstuff.Model.playerData;
 import com.example.newstuff.Model.monsters;
+import com.example.newstuff.R;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

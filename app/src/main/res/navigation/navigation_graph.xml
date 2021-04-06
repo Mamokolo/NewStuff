@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.newstuff.View.LoginFragment"
+        android:name="com.example.newstuff.Controller.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login">
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/signupFragment"
-        android:name="com.example.newstuff.View.SignupFragment"
+        android:name="com.example.newstuff.Controller.SignupFragment"
         android:label="fragment_signup"
         tools:layout="@layout/fragment_signup" >
         <action
@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/resultFragment"
-        android:name="com.example.newstuff.View.ResultFragment"
+        android:name="com.example.newstuff.Controller.ResultFragment"
         android:label="fragment_result"
         tools:layout="@layout/fragment_result" >
         <action
@@ -40,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/signUpSuccessFragment"
-        android:name="com.example.newstuff.View.SignUpSuccessFragment"
+        android:name="com.example.newstuff.Controller.SignUpSuccessFragment"
         android:label="fragment_sign_up_success"
         tools:layout="@layout/fragment_sign_up_success" >
         <action
@@ -49,7 +49,7 @@
     </fragment>
     <fragment
         android:id="@+id/GameFragment"
-        android:name="com.example.newstuff.View.GameFragment"
+        android:name="com.example.newstuff.Controller.GameFragment"
         android:label="fragment_middle_game"
         tools:layout="@layout/fragment_game" >
         <action
@@ -58,7 +58,7 @@
     </fragment>
     <fragment
         android:id="@+id/scoreFragment"
-        android:name="com.example.newstuff.View.ScoreFragment"
+        android:name="com.example.newstuff.Controller.ScoreFragment"
         android:label="fragment_score"
         tools:layout="@layout/fragment_score" >
         <action

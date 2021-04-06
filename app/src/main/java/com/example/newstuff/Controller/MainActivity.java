@@ -1,17 +1,10 @@
-package com.example.newstuff.View;
+package com.example.newstuff.Controller;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.widget.Toolbar;
 
 import com.example.newstuff.R;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 

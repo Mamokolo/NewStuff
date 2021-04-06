@@ -1,4 +1,4 @@
-package com.example.newstuff.View;
+package com.example.newstuff.Controller;
 
 import android.os.Bundle;
 

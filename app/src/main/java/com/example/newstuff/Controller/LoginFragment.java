@@ -33,6 +33,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -239,9 +240,15 @@ public class LoginFragment extends Fragment {
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
                 .build();
-        RequestBody body = RequestBody.create(JSON,json);
+        RequestBody body = RequestBody.create(JSON,json);//read json
 
-        Request request = new Request.Builder().url(url).post(body).build();
+        RequestBody requestBody = new MultipartBody.Builder()//hand in parameter
+                .addFormDataPart("userid","1")
+                .addFormDataPart("id","1")
+                .addFormDataPart("title","Test okHttp")
+                .build();
+
+        Request request = new Request.Builder().url(url).post(requestBody).build();
 
         Call call = client.newCall(request);
         call.enqueue(new Callback() {

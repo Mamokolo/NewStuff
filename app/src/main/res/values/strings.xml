@@ -52,4 +52,6 @@
     <string name="textHowLong">YOUR TIME</string>
     <string name="textHowManyScoreYouGot">YOUR SCORE</string>
     <string name="textLeaveGame">Are you sure you want to quit the game?</string>
+    <string name="textWebsite">Website</string>
+    <string name="textSuccess">SUCCESS</string>
 </resources>

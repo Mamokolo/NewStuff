@@ -11,8 +11,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.os.SystemClock;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.JsonReader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,12 +24,28 @@ import android.widget.EditText;
 
 import com.example.newstuff.R;
 
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONStringer;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
+import okio.BufferedSink;
+
 
 public class LoginFragment extends Fragment {
 
     private Activity activity;
     private EditText loginName,loginPassword;
-    private Button loginBtn,signUpBtn,exitBtn;
+    private Button loginBtn,signUpBtn,exitBtn,websiteStn;
     private boolean isNameFilled=false,isPasswordFilled=false;
 
     @Override
@@ -59,6 +77,7 @@ public class LoginFragment extends Fragment {
         loginPassword = view.findViewById(R.id.lgoinPassword);
         loginBtn = view.findViewById(R.id.loginBtn);
         exitBtn = view.findViewById(R.id.exitBtn);
+        websiteStn = view.findViewById(R.id.buttonWebsite);
 
 
         loginBtn.setEnabled(false);
@@ -162,6 +181,81 @@ public class LoginFragment extends Fragment {
                 dialog.show();
             }
         });
+        websiteStn.setOnClickListener(v -> {
+            //sendGet();
+
+            sendPost("https://jsonplaceholder.typicode.com/posts", "[{\"userId\": \"1\",\"id\": \"1\",\"title\": \"Test okHttp\"}]");
+
+        });
+
+    }
+    private void sendGet(){
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
+                .build();
+
+        Request request = new Request.Builder()
+                .url("https://jsonplaceholder.typicode.com/posts")
+                .build();
+
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                /*AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
+                dialog.setTitle(getString(R.string.textWarning));
+                dialog.setCancelable(false);
+                dialog.setPositiveButton(getString(R.string.textExit), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                       dialog.cancel();
+                    }
+                });
+                dialog.show();
+                 */
+                System.out.println("FAIL "+e.getMessage());
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                /*AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
+                dialog.setTitle(getString(R.string.textSuccess));
+                dialog.setCancelable(false);
+                dialog.setMessage(response.body().string());
+                dialog.setPositiveButton(getString(R.string.textExit), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                dialog.show();
+                 */
+                System.out.println("SUCCESS "+response.body().string());
+            }
+        });
+    }
+    private void sendPost(String url, String json){
+        final MediaType JSON = MediaType.parse("application/json; charset:utf-8");
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
+                .build();
+        RequestBody body = RequestBody.create(JSON,json);
+
+        Request request = new Request.Builder().url(url).post(body).build();
+
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                System.out.println("FAIL "+e.getMessage());
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                System.out.println("SUCCESS "+response.body().string());
+            }
+        });
+
 
     }
     public void DialogInit() {

@@ -2,6 +2,7 @@ package com.example.newstuff.Controller;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import androidx.navigation.Navigation;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +27,7 @@ public class LoginFragment extends Fragment {
 
     private Activity activity;
     private EditText loginName,loginPassword;
-    private Button loginBtn,signUpBtn;
+    private Button loginBtn,signUpBtn,exitBtn;
     private boolean isNameFilled=false,isPasswordFilled=false;
 
     @Override
@@ -56,6 +58,9 @@ public class LoginFragment extends Fragment {
         loginName = view.findViewById(R.id.LoginName);
         loginPassword = view.findViewById(R.id.lgoinPassword);
         loginBtn = view.findViewById(R.id.loginBtn);
+        exitBtn = view.findViewById(R.id.exitBtn);
+
+
         loginBtn.setEnabled(false);
         loginName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -133,6 +138,28 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Navigation.findNavController(view).navigate(R.id.action_mainFragment_to_signupFragment);
+            }
+        });
+        exitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
+                dialog.setTitle(getString(R.string.textWarning));
+                dialog.setCancelable(false);
+                dialog.setMessage(getString(R.string.textLeaveGame));
+                dialog.setPositiveButton(getString(R.string.textExit), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        activity.finish();
+                    }
+                });
+                dialog.setNegativeButton(getString(R.string.textCancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        onResume();
+                    }
+                });
+                dialog.show();
             }
         });
 

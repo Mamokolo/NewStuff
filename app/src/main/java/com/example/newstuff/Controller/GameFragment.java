@@ -22,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.Chronometer;
@@ -55,6 +56,7 @@ public class GameFragment extends Fragment {
     private List<ImageView> obstacleList=null;
     private int score=0;
     private long lastPause;
+    private boolean gameSign = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,41 +67,13 @@ public class GameFragment extends Fragment {
 
         //TODO: Catch onBackPressed
         Bundle currentBundle = getArguments();
-        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
-            @Override
-            public void handleOnBackPressed() {
-                onPause();
-
-                AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
-                dialog.setTitle(getString(R.string.textWarning));
-                dialog.setCancelable(false);
-                dialog.setMessage(getString(R.string.textEndGameWarn));
-                dialog.setPositiveButton(getString(R.string.textExit), new DialogInterface.OnClickListener() {
-
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Log.e(TAG,"click exit btn on warning page on pause func");
-                        currentBundle.remove("skill");
-                        Navigation.findNavController(GameFragment.this.getView()).navigate(R.id.resultFragment,currentBundle);
-                    }
-                });
-                dialog.setNegativeButton(getString(R.string.textCancel), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        onResume();
-                    }
-                });
-                dialog.show();
-                System.out.println("Back Catch");
-            }
-        };
-        requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
 
         DisplayMetrics metric = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(metric);
         screenWidth = metric.widthPixels;     // 螢幕寬度（畫素）
         screenHeight = metric.heightPixels;   // 螢幕高度（畫素）
+
+        //Animation fallingDownAnimation = new TranslateAnimation()
 
         //System.out.println(width+" "+height);
     }
@@ -117,6 +91,10 @@ public class GameFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Bundle bundle = getArguments();
+
+
+
         //TODO: Catch existed elements
         //TextView
         textScore = view.findViewById(R.id.textScore);
@@ -139,6 +117,7 @@ public class GameFragment extends Fragment {
         NL.setVisibility(View.INVISIBLE);
         NL.setAdjustViewBounds(true);
 
+
         //TODO: Dynamic adjust ImageView's width & height
         ViewGroup.LayoutParams lpGodtone = godtone.getLayoutParams();
         ViewGroup.LayoutParams lpNL = NL.getLayoutParams();
@@ -151,37 +130,32 @@ public class GameFragment extends Fragment {
         lpNL.height = ViewGroup.LayoutParams.WRAP_CONTENT;
         NL.setLayoutParams(lpNL);
 
-        //TODO: Divide screen width (be used to move & set position
+        //TODO: Divide screen width (be used to move() & set position
         change = screenWidth/5;
-        ArrayList<Integer> monsterY= new ArrayList<Integer>();
+        ArrayList<Integer> monsterX= new ArrayList<Integer>();
         for(int i=0;i<5;i++){
-            monsterY.add((screenWidth/5)*i);
+            monsterX.add((screenWidth/5)*i);
         }
         //New value
-        Bundle bundle = getArguments();
-        //TODO: Set godtone & its animation
+
+        //TODO: Set godtone's parameters
         godtone.setX((screenWidth/5)*2);
-        Animation turnLeftAnim = new TranslateAnimation(godtone.getX(),godtone.getX()-change,godtone.getY(),godtone.getY());
-        Animation turnRightAnim = new TranslateAnimation(godtone.getX(),godtone.getX()+change,godtone.getY(),godtone.getY());
-
-
         informationInit(bundle,view);
+
         //TODO: Player's parameters
         playerData player = new playerData(0,null,null,0);
         assert bundle != null;
         initPlayer(player,bundle.getString("level"));
-        //TODO: Monster parameter
-        Random ran = new Random();
-        monsters nl = new monsters(bundle.getString("level"), NL, screenHeight-70, godtone, monsterY, screenWidth, screenHeight, lpGodtone.height);
 
+        //TODO: Monster parameter & its animation
+        Random ran = new Random();
+        monsters nl = new monsters(bundle.getString("level"), NL, screenHeight-70, godtone, monsterX, screenWidth, screenHeight, lpGodtone.height);
 
         turnLeftbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 godtone.setScaleX(-1);
                 if(relatedPosition>-2){
-                    godtone.setAnimation(turnLeftAnim);
-                    turnLeftAnim.startNow();
                     godtone.setX(godtone.getX() - change);
                     System.out.println("turn left");
                     relatedPosition -= 1;
@@ -193,8 +167,7 @@ public class GameFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 godtone.setScaleX(1);
-                if(relatedPosition<2){godtone.setAnimation(turnRightAnim);
-                    turnRightAnim.startNow();
+                if(relatedPosition<2){
                     godtone.setX(godtone.getX() + change);
                     System.out.println("turn right");
                     relatedPosition += 1;
@@ -236,6 +209,7 @@ public class GameFragment extends Fragment {
                 }
                 lastPause = SystemClock.elapsedRealtime();
                 gameTimer.stop();
+                nl.moveTimer.cancel();
 
                 AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
                 dialog.setTitle("PAUSE");
@@ -253,6 +227,7 @@ public class GameFragment extends Fragment {
                         coolDownTimerStart();
                         gameTimer.setBase(gameTimer.getBase() + SystemClock.elapsedRealtime() - lastPause);
                         gameTimer.start();
+                        nl.moveTimer.start();
                     }
                 });
                 dialog.show();
@@ -281,7 +256,7 @@ public class GameFragment extends Fragment {
         readyDialog.setPositiveButton(getString(R.string.textIAmReady), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                setReadyTimer(nl);
+                setReadyTimer(nl,gameSign);
             }
         });
         readyDialog.show();
@@ -294,7 +269,47 @@ public class GameFragment extends Fragment {
         System.out.println(nl.monster.getX()+" "+nl.monster.getY()+" "+nl.level);
         System.out.println(imageRoad.getTop()+" "+imageRoad.getBottom());
 
+        //TODO: Rewrite back btn
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                onPause();
+                if(coolDownTimer!=null){
+                    coolDownTimer.cancel();
+                }
+                lastPause = SystemClock.elapsedRealtime();
+                gameTimer.stop();
+                nl.moveTimer.cancel();
 
+                AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
+                dialog.setTitle(getString(R.string.textWarning));
+                dialog.setCancelable(false);
+                dialog.setMessage(getString(R.string.textEndGameWarn));
+                dialog.setPositiveButton(getString(R.string.textExit), new DialogInterface.OnClickListener() {
+
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.e(TAG,"click exit btn on warning page on pause func");
+                        bundle.remove("skill");
+                        Navigation.findNavController(GameFragment.this.getView()).navigate(R.id.resultFragment,bundle);
+                    }
+                });
+                dialog.setNegativeButton(getString(R.string.textCancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        onResume();
+                        coolDownTimer.start();
+                        gameTimer.setBase(gameTimer.getBase() + SystemClock.elapsedRealtime() - lastPause);
+                        gameTimer.start();
+                        nl.moveTimer.start();
+                    }
+                });
+                dialog.show();
+                System.out.println("Back Catch");
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner() , callback);
 
     }
 
@@ -302,7 +317,9 @@ public class GameFragment extends Fragment {
     public void onPause() {
         super.onPause();
 
+
     }
+
 
     private void initPlayer(playerData playerData, String level){
         //TODO: Initialize player's status
@@ -322,6 +339,7 @@ public class GameFragment extends Fragment {
         }
         //return
     }
+
     private void useFlash(){
         //TODO: avoid any conflict with object for next 1.5 sec (CD 40 sec)
 
@@ -354,11 +372,12 @@ public class GameFragment extends Fragment {
                 skillBtn.setEnabled(true);
                 textCoolDown.setBackgroundColor(Color.argb(0,0,0,0));
                 textCoolDown.setText("");
+                coolDownTimer.cancel();
                 //System.out.println("finish");
             }
         }.start();
     }
-    private void setReadyTimer(monsters nl){
+    private void setReadyTimer(monsters nl,boolean gameSign){
 
         turnLeftbtn.setClickable(false);
         turnRightbtn.setClickable(false);
@@ -386,9 +405,14 @@ public class GameFragment extends Fragment {
                 pause.setClickable(true);
                 NL.setVisibility(View.VISIBLE);
                 nl.move();
+                readyTimer.cancel();
+
                 //TODO: Reset gameTimer
                 gameTimer.setBase(SystemClock.elapsedRealtime());
                 gameTimer.start();
+
+
+
             }
         }.start();
     }
@@ -459,8 +483,7 @@ public class GameFragment extends Fragment {
     public void hideNavigationBar(){
         View decorView = activity.getWindow().getDecorView();
         int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
+                | View.SYSTEM_UI_FLAG_FULLSCREEN;
         decorView.setSystemUiVisibility(uiOptions);
     }
 }

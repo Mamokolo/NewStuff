@@ -51,4 +51,5 @@
     <string name="textIAmReady">READY!</string>
     <string name="textHowLong">YOUR TIME</string>
     <string name="textHowManyScoreYouGot">YOUR SCORE</string>
+    <string name="textLeaveGame">Are you sure you want to quit the game?</string>
 </resources>

@@ -11,7 +11,7 @@ public class monsters{
     private int distance, screenW, screenH;
     public String level;
     public ImageView monster, godtone;
-    private CountDownTimer moveTimer;
+    public CountDownTimer moveTimer;
     private ArrayList<Integer> monsterY;
     private float currentX;
     private long speedTime;
@@ -55,14 +55,8 @@ public class monsters{
                     monster.setY(monster.getY()+distance/(speedTime/50));
                 }
                 else if(conflict()){
-                    monster.setX(monsterY.get(random.nextInt(4)));
-                    if (monster.getX() == currentX) {
-                        monster.setX(monster.getX() + 2 * monsterY.get(0));
-                        currentX = monster.getX();
-                    }
-                    monster.setY(0);
                     moveTimer.cancel();
-                    move();
+                    moveTimer.onFinish();
                 }
             }
             @Override

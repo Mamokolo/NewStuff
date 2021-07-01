@@ -4,31 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ResultFragment">
+    tools:context=".Controller.ResultFragment">
 
     <!-- TODO: Update blank fragment layout -->
-
-    <TextView
-        android:id="@+id/loginResult"
-        android:layout_width="0dp"
-        android:layout_height="67dp"
-        android:text="@string/hello_blank_fragment"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="4dp" />
 
     <TextView
         android:id="@+id/difficultyView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="@string/textDifficuly"
+        android:text="@string/textDifficulty"
         android:textSize="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginResult" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/difficultyView2"
@@ -122,40 +112,42 @@
         android:id="@+id/imageFrameHeal"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_marginTop="36dp"
         android:layout_weight="1"
         android:src="@android:drawable/gallery_thumb"
         android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/difficultyView2"
+        app:layout_constraintBottom_toBottomOf="@+id/healBtn2"
+        app:layout_constraintEnd_toEndOf="@+id/healBtn2"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/healBtn2"
+        app:layout_constraintTop_toTopOf="@+id/healBtn2"
+        app:layout_constraintVertical_bias="0.0"
         app:tint="#ff0000" />
 
     <ImageView
         android:id="@+id/imageFrameFlash"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="36dp"
         android:layout_weight="1"
         android:scaleType="centerInside"
         android:src="@android:drawable/gallery_thumb"
         android:tint="#FF0000"
         android:visibility="invisible"
-        app:layout_constraintEnd_toStartOf="@+id/imageFrameHeal"
-        app:layout_constraintTop_toBottomOf="@+id/difficultyView2" />
+        app:layout_constraintBottom_toBottomOf="@+id/flashBtn_2"
+        app:layout_constraintEnd_toEndOf="@+id/flashBtn_2"
+        app:layout_constraintStart_toStartOf="@+id/flashBtn_2"
+        app:layout_constraintTop_toTopOf="@+id/flashBtn_2" />
 
     <ImageView
         android:id="@+id/imageFrameShield"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="36dp"
         android:layout_weight="1"
         android:src="@android:drawable/gallery_thumb"
         android:tint="#FF0000"
         android:visibility="invisible"
-        app:layout_constraintStart_toEndOf="@+id/imageFrameHeal"
-        app:layout_constraintTop_toBottomOf="@+id/difficultyView2" />
+        app:layout_constraintBottom_toBottomOf="@+id/shieldBtn2"
+        app:layout_constraintEnd_toEndOf="@+id/shieldBtn2"
+        app:layout_constraintStart_toStartOf="@+id/shieldBtn2"
+        app:layout_constraintTop_toTopOf="@+id/shieldBtn2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

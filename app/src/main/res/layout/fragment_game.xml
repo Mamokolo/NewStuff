@@ -4,81 +4,200 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GameFragment">
+    android:layout_gravity="center"
+    tools:context=".Controller.GameFragment">
 
-    <TextView
-        android:id="@+id/textTime"
-        android:layout_width="120dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:text="TextView"
+    <ImageView
+        android:id="@+id/imageRoad"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/image_background_road1"
+        app:layout_constraintBottom_toTopOf="@+id/imageButtonSeat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/imageNL1"
+        android:layout_width="100dp"
+        android:layout_height="120dp"
+        android:src="@drawable/new_nl"
+        tools:layout_editor_absoluteX="156dp"
+        tools:layout_editor_absoluteY="301dp" />
+
+    <ImageView
+        android:id="@+id/imageButtonSeat"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:foreground="@drawable/metal"
+        android:scaleType="center"
+        android:src="@drawable/metal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="90dp"
+        android:scaleType="center"
+        android:src="@drawable/metal"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Chronometer
+        android:id="@+id/textTime"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:background="#FFFFFF"
+        android:gravity="right|center_vertical"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toStartOf="@+id/textScore"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textTimer"
+        tools:autoSizeTextType="uniform" />
+
     <TextView
         android:id="@+id/textScore"
-        android:layout_width="120dp"
+        android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        android:text="TextView"
+        android:layout_marginStart="8dp"
+        android:background="#FFFFFF"
+        android:gravity="right|center_vertical"
+        app:autoSizeTextType="uniform"
         app:layout_constraintEnd_toStartOf="@+id/pauseBtn"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/textTime"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textScoreCounter" />
 
     <Button
         android:id="@+id/pauseBtn"
-        android:layout_width="120dp"
+        android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/textPause"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textScore"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageGodtone"
         android:layout_width="100dp"
         android:layout_height="160dp"
-        android:layout_marginBottom="40dp"
         android:clickable="false"
-        android:src="@drawable/godtone"
-        app:layout_constraintBottom_toTopOf="@+id/imageButtonFlash"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:src="@drawable/new_godtone"
+        app:layout_constraintBottom_toTopOf="@+id/imageButtonSeat"
+        tools:layout_editor_absoluteX="311dp" />
 
     <ImageButton
-        android:id="@+id/imageButtonFlash"
-        android:layout_width="120dp"
+        android:id="@+id/imageButtonSkill"
+        android:layout_width="0dp"
         android:layout_height="120dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#595050"
         android:scaleType="centerInside"
-        android:src="@drawable/flash"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/imageButtonRight"
+        app:layout_constraintStart_toEndOf="@+id/imageButtonLeft" />
 
     <ImageButton
         android:id="@+id/imageButtonRight"
-        android:layout_width="120dp"
+        android:layout_width="0dp"
         android:layout_height="120dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#595050"
         android:scaleType="centerInside"
         android:src="@drawable/direction_right"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageButtonFlash" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toEndOf="@+id/imageButtonSkill" />
 
     <ImageButton
         android:id="@+id/imageButtonLeft"
-        android:layout_width="120dp"
+        android:layout_width="0dp"
         android:layout_height="120dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#595050"
         android:scaleType="centerInside"
         android:src="@drawable/direction_left"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageButtonFlash" />
+        app:layout_constraintEnd_toStartOf="@+id/imageButtonSkill"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/coolDownText"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="right|center_vertical"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textIsSelectable="false"
+        android:textSize="24sp"
+        android:verticalScrollbarPosition="defaultPosition"
+        app:layout_constraintBottom_toBottomOf="@+id/imageButtonSkill"
+        app:layout_constraintEnd_toEndOf="@+id/imageButtonSkill"
+        app:layout_constraintStart_toStartOf="@+id/imageButtonSkill"
+        app:layout_constraintTop_toTopOf="@+id/imageButtonSkill" />
+
+    <TextView
+        android:id="@+id/textTimer"
+        android:layout_width="124dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/textHowLong"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/textScoreCounter"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textScoreCounter"
+        android:layout_width="124dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/textHowManyScoreYouGot"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/textView3"
+        app:layout_constraintStart_toEndOf="@+id/textTimer"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="124dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textScoreCounter"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/readyCountDownText"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:textColor="#FBFBFB"
+        android:textSize="48sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

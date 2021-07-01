@@ -1,4 +1,4 @@
-package com.example.newstuff;
+package com.example.newstuff.Controller;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -16,6 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.example.newstuff.R;
 
 
 public class SignupFragment extends Fragment {
@@ -83,7 +85,7 @@ public class SignupFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 if(signUpName.getText().toString().length()==16){
-                    signUpName.setError(getString(R.string.textusernameMaxLengthWarning));
+                    signUpName.setError(getString(R.string.textUsernameMaxLengthWarning));
                 }
                 if(TextUtils.isEmpty(signUpName.getText().toString())){
                     isUsernameFilled=false;
@@ -109,17 +111,17 @@ public class SignupFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(signUpPassword.getText().toString().length()==18){
-                    signUpPassword.setError(getString(R.string.textpasswordMaxLengthWarning));
+                    signUpPassword.setError(getString(R.string.textPasswordMaxLengthWarning));
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
                 if(signUpPassword.getText().toString().length()==18){
-                    signUpPassword.setError(getString(R.string.textpasswordMaxLengthWarning));
+                    signUpPassword.setError(getString(R.string.textPasswordMaxLengthWarning));
                 }
                 if(signUpPassword.getText().toString().length()<6){
-                    signUpPassword.setError(getString(R.string.textpasswordIsTooShort));
+                    signUpPassword.setError(getString(R.string.textPasswordIsTooShort));
                 }
                 if(TextUtils.isEmpty(signUpPassword.getText().toString())){
                     isPasswordFilled=false;
@@ -172,7 +174,7 @@ public class SignupFragment extends Fragment {
 
                 if(password.equals(passwordConfirm)){
                     //TODO Check if there is duplicate username
-                    if(name!=getString(R.string.textauthName)){
+                    if(name!=getString(R.string.textAuthName)){
                         Bundle bundle = new Bundle();
                         bundle.putString("name",name);
                         bundle.putString("password",password);
@@ -180,7 +182,7 @@ public class SignupFragment extends Fragment {
                     }
                 }
                 else{
-                    confirmSignUpPassword.setError(getString(R.string.textconfirmPassowrFailed));
+                    confirmSignUpPassword.setError(getString(R.string.textConfirmPasswordFailed));
                 }
             }
         });

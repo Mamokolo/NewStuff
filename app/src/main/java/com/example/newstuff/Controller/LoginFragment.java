@@ -23,12 +23,12 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.newstuff.R;
-
+/*
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONStringer;
-
+*/
 import java.io.IOException;
-
+/*
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -40,7 +40,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import okio.BufferedSink;
-
+*/
 
 public class LoginFragment extends Fragment {
 
@@ -146,6 +146,7 @@ public class LoginFragment extends Fragment {
                     Bundle bundle = new Bundle();
                     bundle.putString("name",name);
                     bundle.putString("password",password);
+                    bundle.putBoolean("loginFlag",true);
                     Navigation.findNavController(view).navigate(R.id.action_mainFragment_to_resultFragment,bundle);
                 }
                 else{
@@ -185,11 +186,12 @@ public class LoginFragment extends Fragment {
         websiteStn.setOnClickListener(v -> {
             //sendGet();
 
-            sendPost("https://jsonplaceholder.typicode.com/posts", "[{\"userId\": \"1\",\"id\": \"1\",\"title\": \"Test okHttp\"}]");
+            //sendPost("https://jsonplaceholder.typicode.com/posts", "[{\"userId\": \"1\",\"id\": \"1\",\"title\": \"Test okHttp\"}]");
 
         });
 
     }
+    /*
     private void sendGet(){
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
@@ -213,13 +215,13 @@ public class LoginFragment extends Fragment {
                     }
                 });
                 dialog.show();
-                 */
+
                 System.out.println("FAIL "+e.getMessage());
             }
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                /*AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
+                AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
                 dialog.setTitle(getString(R.string.textSuccess));
                 dialog.setCancelable(false);
                 dialog.setMessage(response.body().string());
@@ -230,7 +232,7 @@ public class LoginFragment extends Fragment {
                     }
                 });
                 dialog.show();
-                 */
+
                 System.out.println("SUCCESS "+response.body().string());
             }
         });
@@ -265,6 +267,7 @@ public class LoginFragment extends Fragment {
 
 
     }
+    */
     public void DialogInit() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(LoginFragment.this.activity);
         alertDialog.setTitle(R.string.textLoginFailed);

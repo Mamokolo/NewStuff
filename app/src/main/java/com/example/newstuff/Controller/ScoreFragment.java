@@ -1,4 +1,4 @@
-package com.example.newstuff;
+package com.example.newstuff.Controller;
 
 import android.os.Bundle;
 
@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.newstuff.R;
 
 public class ScoreFragment extends Fragment {
 

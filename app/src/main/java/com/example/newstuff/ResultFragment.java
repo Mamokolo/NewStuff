@@ -1,6 +1,7 @@
 package com.example.newstuff;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -24,34 +25,15 @@ public class ResultFragment extends Fragment {
     private Button easyBtn,mediumBtn,hardBtn,logoutBtn;
     private ImageButton flash,heal,shield;
     private ImageView frameFlash,frameHeal,frameShield;
+    private int whichFragment = 0;
+    private boolean loginFlag=true;
+    private Bundle bundle;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    // TODO: Rename and change types and number of parameters
-    public static ResultFragment newInstance(String param1, String param2) {
-        ResultFragment fragment = new ResultFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = getActivity();
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -65,7 +47,7 @@ public class ResultFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Bundle bundle = getArguments();
+        bundle = getArguments();
         if(bundle==null){
             Navigation.findNavController(view).navigate(R.id.mainFragment);
         }
@@ -86,9 +68,15 @@ public class ResultFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(bundle.containsKey("skill")){
+                    if(bundle.getString("name") == null || bundle.getString("password") == null){
+                        System.out.println("WRONG");
+                    }
                     //System.out.println(bundle.getString("skill"));
                     bundle.putString("difficulty","easy");
-                    Navigation.findNavController(view).navigate(R.id.GameFragment,bundle);
+                    //Navigation.findNavController(view).navigate(R.id.GameFragment,bundle);
+                    Intent intent = new Intent(getActivity(), GameActivity.class);
+                    intent.putExtra("bundle",bundle);
+                    startActivity(intent);
                 }
                 else{
 
@@ -172,6 +160,38 @@ public class ResultFragment extends Fragment {
             String Text = "name: "+name+"\npassword: "+password;
             textResult.setText(Text);
 
+        }
+    }
+
+    @Override
+    public void onStart() {//接取GameActivity 回來的資料 確認是藉由哪一種形式回到MainActivity
+        super.onStart();
+        Bundle bundleFromGameActivity=null;
+        if(activity.getIntent().getBundleExtra("bundle")!=null){
+            bundleFromGameActivity = activity.getIntent().getBundleExtra("bundle");
+            bundle.putBoolean("loginFlag",bundleFromGameActivity.getBoolean("loginFlag"));
+            activity.getIntent().removeExtra("bundle");
+        }
+        System.out.println(bundle.getBoolean("loginFlag"));
+        if(!bundle.getBoolean("loginFlag")){
+            whichFragment = getActivity().getIntent().getIntExtra("whichFragment",0);
+            System.out.println("whichFragment: "+ whichFragment);
+            switch (whichFragment){
+                case 1://logout
+                    System.out.println(1);
+                    NavController navController = Navigation.findNavController(getView());
+                    navController.popBackStack(R.id.resultFragment,true);
+                    navController.popBackStack(R.id.mainFragment,true);
+                    navController.popBackStack(R.id.signupFragment,true);
+                    navController.popBackStack(R.id.signUpSuccessFragment,true);
+                    navController.navigate(R.id.mainFragment);
+                    break;
+                case 2://StayResultFragment
+                    break;
+                case 3:
+                    Navigation.findNavController(getView()).navigate(R.id.scoreFragment,bundleFromGameActivity);
+                    break;
+            }
         }
     }
 }
